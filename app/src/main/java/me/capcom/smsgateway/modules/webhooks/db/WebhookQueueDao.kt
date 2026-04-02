@@ -12,13 +12,13 @@ interface WebhookQueueDao {
      * Insert a new webhook event into the queue.
      */
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    suspend fun insertWebhook(webhook: WebhookQueueEntity): Long
+    suspend fun insertWebhook(webhook: WebhookQueueEntity)
 
     /**
      * Get webhook by id.
      */
     @Query("SELECT * FROM webhook_queue WHERE id = :id")
-    suspend fun getById(id: Long): WebhookQueueEntity
+    suspend fun getById(id: String): WebhookQueueEntity
 
     /**
      * Check if there are any scheduled webhook events.
@@ -53,7 +53,7 @@ interface WebhookQueueDao {
     """
     )
     suspend fun markAsProcessing(
-        id: Long,
+        id: String,
     )
 
     /**
@@ -70,7 +70,7 @@ interface WebhookQueueDao {
     """
     )
     suspend fun markAsFailed(
-        id: Long,
+        id: String,
         nextAttempt: Long,
         error: String?,
     )
@@ -86,7 +86,7 @@ interface WebhookQueueDao {
     """
     )
     suspend fun markAsCompleted(
-        id: Long,
+        id: String,
     )
 
     /**
@@ -100,7 +100,7 @@ interface WebhookQueueDao {
     """
     )
     suspend fun markAsPermanentlyFailed(
-        id: Long,
+        id: String,
         error: String,
     )
 
