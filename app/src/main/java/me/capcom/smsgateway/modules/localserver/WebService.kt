@@ -43,6 +43,7 @@ import me.capcom.smsgateway.modules.localserver.auth.JwtService
 import me.capcom.smsgateway.modules.localserver.auth.requireScope
 import me.capcom.smsgateway.modules.localserver.domain.Device
 import me.capcom.smsgateway.modules.localserver.routes.AuthRoutes
+import me.capcom.smsgateway.modules.localserver.routes.ContactsRoutes
 import me.capcom.smsgateway.modules.localserver.routes.DocsRoutes
 import me.capcom.smsgateway.modules.localserver.routes.LogsRoutes
 import me.capcom.smsgateway.modules.localserver.routes.MessagesRoutes
@@ -186,6 +187,9 @@ class WebService : Service() {
                         }
                     }
 
+                    route("/contacts") {
+                        ContactsRoutes(applicationContext).register(this)
+                    }
                     route("/logs") {
                         LogsRoutes(get()).register(this)
                     }
