@@ -40,6 +40,7 @@ class MessagesRepository(private val dao: MessagesDao) {
                 withDeliveryReport = request.params.withDeliveryReport,
                 simNumber = request.params.simNumber,
                 validUntil = request.params.validUntil,
+                scheduleAt = request.params.scheduleAt,
                 isEncrypted = request.message.isEncrypted,
                 skipPhoneValidation = request.params.skipPhoneValidation,
                 priority = request.params.priority ?: Message.PRIORITY_DEFAULT,
@@ -61,9 +62,10 @@ class MessagesRepository(private val dao: MessagesDao) {
 
     fun getPending(order: MessagesSettings.ProcessingOrder): StoredSendRequest? {
         while (true) {
+            val now = Date()
             val message = when (order) {
-                MessagesSettings.ProcessingOrder.LIFO -> dao.getPendingLifo()
-                MessagesSettings.ProcessingOrder.FIFO -> dao.getPendingFifo()
+                MessagesSettings.ProcessingOrder.LIFO -> dao.getPendingLifo(now)
+                MessagesSettings.ProcessingOrder.FIFO -> dao.getPendingFifo(now)
             } ?: return null
 
             if (message.state != ProcessingState.Pending) {
@@ -107,6 +109,7 @@ class MessagesRepository(private val dao: MessagesDao) {
                 skipPhoneValidation = message.message.skipPhoneValidation,
                 simNumber = message.message.simNumber,
                 validUntil = message.message.validUntil,
+                scheduleAt = message.message.scheduleAt,
                 priority = message.message.priority
             ),
         )

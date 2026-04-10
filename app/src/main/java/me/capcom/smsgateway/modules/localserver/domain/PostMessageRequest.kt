@@ -30,7 +30,8 @@ data class PostMessageRequest(
     @SerializedName("ttl")
     private val _ttl: Long?,
     @SerializedName("validUntil")
-    private val _validUntil: Date?
+    private val _validUntil: Date?,
+    val scheduleAt: Date? = null,
 ) {
     val validUntil: Date?
         get() {
@@ -47,4 +48,10 @@ data class PostMessageRequest(
 
             return validUntil
         }
+
+    init {
+        if (scheduleAt?.before(Date()) == true) {
+            throw IllegalArgumentException("scheduleAt must be in the future")
+        }
+    }
 }

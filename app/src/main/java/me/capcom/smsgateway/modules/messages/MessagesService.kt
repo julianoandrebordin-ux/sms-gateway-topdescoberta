@@ -78,7 +78,7 @@ class MessagesService(
 
     //#region Lifecycle
     fun start(context: Context) {
-        SendMessagesWorker.start(context, false)
+        SendMessagesWorker.start(context, false, 0)
         LogTruncateWorker.start(context)
     }
 
@@ -98,8 +98,14 @@ class MessagesService(
         messages.enqueue(request)
 
         val priority = request.params.priority ?: Message.PRIORITY_DEFAULT
+        val scheduleAt = request.params.scheduleAt?.time
 
-        SendMessagesWorker.start(context, priority >= Message.PRIORITY_EXPEDITED)
+        if (scheduleAt != null && scheduleAt > System.currentTimeMillis()) {
+            val earliest = dao.nextScheduledTime() ?: 0
+            SendMessagesWorker.start(context, scheduleAt < earliest, scheduleAt)
+        } else {
+            SendMessagesWorker.start(context, priority >= Message.PRIORITY_EXPEDITED, 0)
+        }
     }
     //#endregion
 

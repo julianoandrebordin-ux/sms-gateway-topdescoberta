@@ -17,6 +17,7 @@ enum class MessageType {
         androidx.room.Index(value = ["createdAt"]),
         androidx.room.Index(value = ["state", "processedAt"]),
         androidx.room.Index(value = ["state", "createdAt"]),
+        androidx.room.Index(value = ["state", "scheduleAt"]),
     ]
 )
 data class Message(
@@ -26,6 +27,7 @@ data class Message(
     val withDeliveryReport: Boolean,
     val simNumber: Int?,
     val validUntil: Date?,
+    val scheduleAt: Date?,
     @ColumnInfo(defaultValue = "0")
     val isEncrypted: Boolean,
     @ColumnInfo(defaultValue = "0")

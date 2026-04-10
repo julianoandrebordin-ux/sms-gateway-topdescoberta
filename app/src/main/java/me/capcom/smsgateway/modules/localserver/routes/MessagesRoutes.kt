@@ -241,6 +241,7 @@ class MessagesRoutes(
                     skipPhoneValidation = skipPhoneValidation,
                     simNumber = request.simNumber,
                     validUntil = request.validUntil,
+                    scheduleAt = request.scheduleAt,
                     priority = request.priority,
                 )
             )
