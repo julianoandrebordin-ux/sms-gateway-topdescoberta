@@ -41,14 +41,7 @@
             android:exported="false"
             android:foregroundServiceType="dataSync" />
 
-        <service
-            android:name=".services.PushService"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
+        <!-- PushService: Firebase removed, local mode only -->
 
         <receiver
             android:name=".receivers.EventsReceiver"

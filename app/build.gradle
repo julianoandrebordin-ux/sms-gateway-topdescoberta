@@ -2,14 +2,14 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'com.google.gms.google-services'
+    // Firebase removed - using local mode only
 }
 
 android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "me.capcom.smsgateway"
+        applicationId "br.com.topdescoberta.smsgateway"
         minSdk 21
         targetSdk 33
         versionCode 1
@@ -121,9 +121,7 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:$room_version")
     kapt("androidx.room:room-compiler:$room_version")
 
-    // Import the Firebase BoM
-    implementation platform('com.google.firebase:firebase-bom:31.1.1')
-    implementation 'com.google.firebase:firebase-messaging-ktx'
+    // Firebase removed - using local mode only
 
     implementation 'com.googlecode.libphonenumber:libphonenumber:9.0.22'
 
